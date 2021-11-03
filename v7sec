@@ -15,6 +15,7 @@ echo 'minlen = 8' >> /etc/security/pwquality.conf
 echo 'dcredit = -1' >> /etc/security/pwquality.conf
 echo 'ucredit = -1' >> /etc/security/pwquality.conf
 echo 'ocredit = -1' >> /etc/security/pwquality.conf
+echo 'lcredit = -1' >> /etc/security/pwquality.conf
 
 cp /etc/audit/rules.d/audit.rules /etc/audit/rules.d/audit.rules.bak
 echo '# 监视sysconfig' >> /etc/audit/rules.d/audit.rules
