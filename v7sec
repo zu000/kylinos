@@ -31,7 +31,7 @@ echo '# 监视环境文件' >> /etc/audit/rules.d/audit.rules
 echo '-w /etc/profile -p wa' >> /etc/audit/rules.d/audit.rules
 echo '-w /etc/bashrc -p wa' >> /etc/audit/rules.d/audit.rules
 systemctl enable auditd.service
-service start auditd.service
+service auditd.service start
 
 #登录连接超时5分钟自动退出
 echo 'export TMOUT=300' >> /etc/profile
