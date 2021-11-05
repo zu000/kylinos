@@ -6,9 +6,11 @@ sed -i 's/PASS_MIN_DAYS\t0/PASS_MIN_DAYS\t1/g' /etc/login.defs
 sed -i 's/PASS_MIN_LEN\t5/PASS_MIN_LEN\t8/g' /etc/login.defs
 
 cp /etc/pam.d/system-auth /etc/pam.d/system-auth.bak
-echo 'auth required pam_tally2.so  deny=5 unlock_time=300 even_deny_root root_unlock_time=300' >> /etc/pam.d/system-auth
-cp /etc/pam.d/sshd /etc/pam.d/sshd.bak
-echo 'auth required pam_tally2.so  deny=5 unlock_time=300 even_deny_root root_unlock_time=300' >> /etc/pam.d/sshd
+#echo 'auth required pam_tally2.so  deny=5 unlock_time=300 even_deny_root root_unlock_time=300' >> /etc/pam.d/system-auth
+#default : auth        required      pam_faillock.so preauth audit deny=3 even_deny_root unlock_time=60
+sed -i 's/preauth audit deny=3 even_deny_root unlock_time=60/preauth audit deny=5 even_deny_root unlock_time=300/' /etc/pam.d/system-auth
+#cp /etc/pam.d/sshd /etc/pam.d/sshd.bak
+#echo 'auth required pam_tally2.so  deny=5 unlock_time=300 even_deny_root root_unlock_time=300' >> /etc/pam.d/sshd
 
 cp /etc/security/pwquality.conf /etc/security/pwquality.conf.bak
 echo 'minlen = 8' >> /etc/security/pwquality.conf
