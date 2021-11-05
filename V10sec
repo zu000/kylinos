@@ -1,17 +1,17 @@
 #/bin/bash
+#设置密码过期时间
 cp /etc/login.defs /etc/login.defs.bak
 
 sed -i 's/PASS_MAX_DAYS\t99999/PASS_MAX_DAYS\t90/g' /etc/login.defs
 sed -i 's/PASS_MIN_DAYS\t0/PASS_MIN_DAYS\t1/g' /etc/login.defs
 sed -i 's/PASS_MIN_LEN\t5/PASS_MIN_LEN\t8/g' /etc/login.defs
 
+#登陆5次密码错误锁定600秒
 cp /etc/pam.d/system-auth /etc/pam.d/system-auth.bak
-#echo 'auth required pam_tally2.so  deny=5 unlock_time=300 even_deny_root root_unlock_time=300' >> /etc/pam.d/system-auth
-#default : auth        required      pam_faillock.so preauth audit deny=3 even_deny_root unlock_time=60
-sed -i 's/preauth audit deny=3 even_deny_root unlock_time=60/preauth audit deny=5 even_deny_root unlock_time=300/' /etc/pam.d/system-auth
-#cp /etc/pam.d/sshd /etc/pam.d/sshd.bak
-#echo 'auth required pam_tally2.so  deny=5 unlock_time=300 even_deny_root root_unlock_time=300' >> /etc/pam.d/sshd
 
+sed -i 's/preauth audit deny=3 even_deny_root unlock_time=60/preauth audit deny=5 even_deny_root unlock_time=300/' /etc/pam.d/system-auth
+
+#密码复杂度
 cp /etc/security/pwquality.conf /etc/security/pwquality.conf.bak
 
 sed -i 's/dcredit = 0/dcredit = -1/g' /etc/security/pwquality.conf
@@ -19,7 +19,7 @@ sed -i 's/ucredit = 0/ucredit = -1/g' /etc/security/pwquality.conf
 sed -i 's/ocredit = 0/ocredit = -1/g' /etc/security/pwquality.conf
 sed -i 's/lcredit = 0/lcredit = -1/g' /etc/security/pwquality.conf
 
-
+#设置审核策略
 cp /etc/audit/rules.d/audit.rules /etc/audit/rules.d/audit.rules.bak
 echo '# 监视sysconfig' >> /etc/audit/rules.d/audit.rules
 echo '-w /etc/sysconfig -p rwxa' >> /etc/audit/rules.d/audit.rules
@@ -35,9 +35,9 @@ echo '# 监视环境文件' >> /etc/audit/rules.d/audit.rules
 echo '-w /etc/profile -p wa' >> /etc/audit/rules.d/audit.rules
 echo '-w /etc/bashrc -p wa' >> /etc/audit/rules.d/audit.rules
 systemctl enable auditd.service
+systemctl restart auditd.service
 
 #登录连接超时5分钟自动退出
 echo 'export TMOUT=300' >> /etc/profile
 source /etc/profile
 
-service auditd.service start
