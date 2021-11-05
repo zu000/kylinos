@@ -41,3 +41,4 @@ systemctl restart auditd.service
 echo 'export TMOUT=300' >> /etc/profile
 source /etc/profile
 
+chmod 644 /var/log/audit/audit.log
