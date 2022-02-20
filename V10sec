@@ -41,4 +41,4 @@ systemctl restart auditd.service
 echo 'export TMOUT=300' >> /etc/profile
 source /etc/profile
 
-chmod 644 /var/log/audit/audit.log
+#chmod 644 /var/log/audit/audit.log 此方法不行，重启后权限会变回666，更改方法看kylin目录的auditd.service
