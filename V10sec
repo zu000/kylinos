@@ -42,3 +42,17 @@ echo 'export TMOUT=300' >> /etc/profile
 source /etc/profile
 
 #chmod 644 /var/log/audit/audit.log 此方法不行，重启后权限会变回666，更改方法看kylin目录的auditd.service
+
+cat /usr/lib/systemd/system/auditd.service
+....
+[Service]
+Type=forking
+PIDFile=/var/run/auditd.pid
+ExecStart=/sbin/auditd
+## To not use augenrules, copy this file to /etc/systemd/system/auditd.service
+## and comment/delete the next line and uncomment the auditctl line.
+## NOTE: augenrules expect any rules to be added to /etc/audit/rules.d/
+ExecStartPost=-/sbin/augenrules --load
+#change default audit.log permision
+ExecStartPost=/bin/chmod 644 /var/log/audit/audit.log   #需要增加的命令 来自1.5线
+....
