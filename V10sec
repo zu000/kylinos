@@ -56,3 +56,15 @@ ExecStartPost=-/sbin/augenrules --load
 #change default audit.log permision
 ExecStartPost=/bin/chmod 644 /var/log/audit/audit.log   #需要增加的命令 来自1.5线
 ....
+
+
+
+
+chage -M 180 kylin
+chage -M 180 root
+chage -M 180 auditadmin
+chage -M 180 secadmin
+
+passwd auditadmin
+passwd secadmin
+
