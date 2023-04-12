@@ -48,4 +48,6 @@ chage -M 180 secadmin
 passwd auditadmin
 passwd secadmin
 
-
+/etc/audit/auditd.conf
+num_log = 100
+max_log_file = 300 
